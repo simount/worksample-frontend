@@ -1,0 +1,3 @@
+# テストファイルの変更には採用担当のレビューが必要
+*.test.tsx @simount/hiring-team
+*.test.ts  @simount/hiring-team
