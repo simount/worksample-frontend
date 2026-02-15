@@ -4,18 +4,18 @@
 
 | 項目 | 内容 |
 |------|------|
-| 制限時間 | 90分 |
+| 制限時間 | ありません |
 | 配点 | 100点（各問 25点） |
 | 合格ライン | 60点 |
 
 ## 問題一覧
 
-| 問題 | テーマ | 時間目安 | 編集対象ファイル |
-|------|--------|---------|-----------------|
-| Q1 | Props の型定義 | 15分 | `src/q1-type-definition/UserCard.tsx` |
-| Q2 | useState / useEffect | 15分 | `src/q2-hooks-basics/UserList.tsx` |
-| Q3 | カスタムフック | 30分 | `src/q3-custom-hook/useForm.ts` |
-| Q4 | コンポーネント分割 | 30分 | `src/q4-refactor/` 配下（後述） |
+| 問題 | テーマ | 編集対象ファイル |
+|------|--------|---------|
+| Q1 | Props の型定義 | `src/q1-type-definition/UserCard.tsx` |
+| Q2 | useState / useEffect | `src/q2-hooks-basics/UserList.tsx` |
+| Q3 | カスタムフック | `src/q3-custom-hook/useForm.ts` |
+| Q4 | コンポーネント分割 | `src/q4-refactor/` 配下（後述） |
 
 ### Q4 の編集対象ファイル
 
@@ -114,11 +114,8 @@ git push origin main
 
 ## FAQ
 
-**Q: テストが通らないが、実装は正しいと思う**
+**Q: テストが通らないが、実装は正しいと思う**  
 A: `data-testid` の値がテストの期待値と一致しているか確認してください。テストファイル内のアサーションが求める構造を参考にしてください。
 
-**Q: Q4 はどこまで分割すればいい？**
+**Q: Q4 はどこまで分割すればいい？**  
 A: テストファイルで `import("./components/TaskForm")` 等をチェックしているため、指定された4つのコンポーネントファイルは必ず作成してください。
-
-**Q: 途中で時間切れになった場合は？**
-A: 実装できたところまでコミット・push して PR を提出してください。部分点で採点します。
