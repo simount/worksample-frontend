@@ -12,3 +12,25 @@
  * - <ul data-testid="task-list"> で囲む
  * - 各タスクを TaskItem で表示
  */
+import React from "react";
+import { Task } from "../types";
+import { TaskItem } from "./TaskItem";
+type TaskListProps = {
+    tasks: Task[];
+    onToggle: (id: number) => void;
+    onDelete: (id: number) => void;
+};
+export const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete }) => {
+    return (
+        <ul data-testid="task-list">
+        {tasks.map((task) => (
+            <TaskItem
+                key={task.id} // Reactのリストレンダリングには一意なkeyが必須
+                task={task}
+                onToggle={onToggle}
+                onDelete={onDelete}
+            />
+        ))}
+        </ul>
+    );
+};
