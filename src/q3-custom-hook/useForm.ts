@@ -50,13 +50,69 @@ export interface UseFormReturn<T> {
 }
 
 // ↓↓↓ ここに useForm を実装してください ↓↓↓
-
 export function useForm<T extends Record<string, any>>(
   initialValues: T,
   rules: ValidationRules<T> = {}
 ): UseFormReturn<T> {
-  // TODO: 実装してください
-  throw new Error("Not implemented");
+  const [values, setValues] = useState<T>(initialValues);
+  const [errors, setErrors] = useState<Partial<Record<keyof T, string>>>({});
+  const [touched, setTouchedState] = useState<Partial<Record<keyof T, boolean>>>({});
+  const validateField = <K extends keyof T>(field: K, value: T[K]): string | null => {
+    const fieldRules = rules[field];
+    if (!fieldRules) return null;
+    for (const rule of fieldRules) {
+      const msg = rule(value);
+      if (msg !== null) return msg;
+    }
+    return null;
+  };
+  const applyFieldError = <K extends keyof T>(field: K, msg: string | null) => {
+    setErrors((prev) => {
+      const next = { ...prev };
+      if (msg) next[field] = msg;
+      else delete next[field];
+      return next;
+    });
+  };
+  const setValue = <K extends keyof T>(field: K, value: T[K]) => {
+    setValues((prev) => {
+      const next = { ...prev, [field]: value };
+      if (touched[field]) {
+        const msg = validateField(field, value);
+        applyFieldError(field, msg);
+      }
+      return next;
+    });
+  };
+  const setTouched = (field: keyof T) => {
+    setTouchedState((prev) => ({ ...prev, [field]: true }));
+    const msg = validateField(field as keyof T, values[field]);
+    applyFieldError(field as keyof T, msg);
+  };
+  const validate = () => {
+    const nextErrors: Partial<Record<keyof T, string>> = {};
+    (Object.keys(values) as (keyof T)[]).forEach((field) => {
+      const msg = validateField(field, values[field]);
+      if (msg) nextErrors[field] = msg;
+    });
+    setErrors(nextErrors);
+    return Object.keys(nextErrors).length === 0;
+  };
+  const reset = () => {
+    setValues(initialValues);
+    setErrors({});
+    setTouchedState({});
+  };
+  const isValid = Object.keys(errors).length === 0;
+  return {
+    values,
+    errors,
+    touched,
+    setValue,
+    setTouched,
+    validate,
+    reset,
+    isValid,
+  };
 }
-
 // ↑↑↑ ここまで ↑↑↑
