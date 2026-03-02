@@ -33,10 +33,25 @@ import React from "react";
  */
 
 // ↓↓↓ ここに UserCardProps 型の定義と UserCard コンポーネントを実装してください ↓↓↓
-
-export const UserCard = () => {
-  // TODO: 実装してください
-  return null;
+type UserCardProps = {
+  name: string;
+  age: number;
+  email?: string;
+  role: "admin" | "editor" | "viewer";
+  skills: string[];
+  onContact?: (email: string) => void;
 };
-
+const roleLabel = { admin: "管理者", editor: "編集者", viewer: "閲覧者", } as const;
+export const UserCard = (props: UserCardProps) => {
+  return (
+    <div>
+      <h2 data-testid="name">{props.name}</h2>
+      <p data-testid="age">年齢: {props.age}</p>
+      <p data-testid="role">権限: {roleLabel[props.role]}</p>
+      {props.email && ( <p data-testid="email">Email: {props.email}</p> )}
+      <ul data-testid="skills"> {props.skills.map((skill) => ( <li key={skill}>{skill}</li> ))} </ul>
+      {props.email && props.onContact && ( <button data-testid="contact-btn" onClick={() => props.onContact!(props.email!)}> Contact </button> )}
+    </div>
+  );
+};
 // ↑↑↑ ここまで ↑↑↑
