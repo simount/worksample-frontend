@@ -129,6 +129,12 @@ Block Kit の構成:
 - `section`: 合計点と合格/不合格判定
 - `section`: 総評（簡潔にまとめたもの）
 
-## 8. 完了通知
+## 8. PR をクローズ
+
+```
+gh pr close $ARGUMENTS
+```
+
+## 9. 完了通知
 
 push 通知を送信する。
