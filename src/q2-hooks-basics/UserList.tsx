@@ -37,9 +37,49 @@ export const fetchUsers = async (): Promise<User[]> => {
 
 // ↓↓↓ ここに UserList コンポーネントを実装してください ↓↓↓
 
+// 3つの状態
+type State = 
+| { status: "loading" }
+| { status: "error" }
+| { status: "success"; data: User[]};
+
+
 export const UserList: React.FC = () => {
   // TODO: 実装してください
-  return null;
+  const [state, setState] = useState<State>({status: "loading"});
+
+  useEffect(() => {
+    const load = async () => {
+      try {
+        const users = await fetchUsers();
+        setState({status: "success", data: users});
+      } catch {
+        setState({status: "error"});
+      }
+    };
+
+    load();
+  }, []);
+
+  if(state.status === "loading") {
+    return <p data-testid="loading">読み込み中...</p>
+  }
+
+  if(state.status === "error") {
+    return <p data-testid="error">エラーが発生しました</p>
+  }
+
+  if(state.data.length === 0 ){
+    return <p data-testid="empty">ユーザーがいません</p>
+  }
+
+  return (
+    <ul data-testid="user-list">
+      {state.data.map((user) => (
+        <li key={user.id} data-testid={`user-${user.id}`}>{user.name} - {user.department}</li>
+      ))}
+    </ul>
+  );
 };
 
 // ↑↑↑ ここまで ↑↑↑
